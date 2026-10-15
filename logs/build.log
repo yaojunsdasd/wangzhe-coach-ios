@@ -25,8 +25,8 @@ note: Target dependency graph (2 targets)
 GatherProvisioningInputs
 
 CreateBuildDescription
-Build description signature: 216949b5e4e78f2a5341079bb1942c34
-Build description path: /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/XCBuildData/216949b5e4e78f2a5341079bb1942c34.xcbuilddata
+Build description signature: 9f4a884fb03ff39640c9e3e6a453405e
+Build description path: /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/XCBuildData/9f4a884fb03ff39640c9e3e6a453405e.xcbuilddata
 
 CreateBuildDirectory /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/WangzheCoach.xcodeproj
@@ -60,13 +60,13 @@ MkDir /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     /bin/mkdir -p /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/BroadcastExtension.appex
 
-WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/BroadcastExtension.hmap (in target 'BroadcastExtension' from project 'WangzheCoach')
-    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
-    write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/BroadcastExtension.hmap
-
 WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/all-product-headers.yaml (in target 'BroadcastExtension' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/BroadcastExtension.hmap (in target 'BroadcastExtension' from project 'WangzheCoach')
+    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
+    write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/BroadcastExtension.hmap
 
 WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/BroadcastExtension-project-headers.hmap (in target 'BroadcastExtension' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
@@ -88,13 +88,13 @@ WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/Wangzh
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/BroadcastExtension-all-non-framework-target-headers.hmap
 
-WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension.LinkFileList (in target 'BroadcastExtension' from project 'WangzheCoach')
-    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
-    write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension.LinkFileList
-
 WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension_const_extract_protocols.json (in target 'BroadcastExtension' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension.LinkFileList (in target 'BroadcastExtension' from project 'WangzheCoach')
+    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
+    write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension.LinkFileList
 
 WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension.SwiftFileList (in target 'BroadcastExtension' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
@@ -154,13 +154,13 @@ Ld /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Bui
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     /Applications/Xcode_15.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios15.0 -isysroot /Applications/Xcode_15.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk -Os -L/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/EagerLinkingTBDs/Release-iphoneos -L/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos -F/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/EagerLinkingTBDs/Release-iphoneos -F/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos -filelist /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension.LinkFileList -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -rpath -Xlinker @executable_path/../../Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension_lto.o -e _NSExtensionMain -fapplication-extension -fobjc-link-runtime -L/Applications/Xcode_15.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension.swiftmodule -Xlinker -dependency_info -Xlinker /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/Objects-normal/arm64/BroadcastExtension_dependency_info.dat -o /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/BroadcastExtension.appex/BroadcastExtension
 
-WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/all-product-headers.yaml (in target 'WangzheCoach' from project 'WangzheCoach')
-    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
-    write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/all-product-headers.yaml
-
 WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/WangzheCoach.hmap (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/WangzheCoach.hmap
+
+WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/all-product-headers.yaml (in target 'WangzheCoach' from project 'WangzheCoach')
+    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
+    write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/all-product-headers.yaml
 
 WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/WangzheCoach-project-headers.hmap (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
@@ -182,13 +182,13 @@ WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/Wangzh
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/WangzheCoach-all-non-framework-target-headers.hmap
 
-WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach_const_extract_protocols.json (in target 'WangzheCoach' from project 'WangzheCoach')
-    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
-    write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach_const_extract_protocols.json
-
 WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.SwiftFileList (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach_const_extract_protocols.json (in target 'WangzheCoach' from project 'WangzheCoach')
+    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
+    write-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach_const_extract_protocols.json
 
 WriteAuxiliaryFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach-OutputFileMap.json (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
@@ -221,8 +221,8 @@ note: Metadata extraction skipped. No AppIntents.framework dependency found. (in
 AppIntentsSSUTraining (in target 'BroadcastExtension' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     /Applications/Xcode_15.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/BroadcastExtension.appex/Info.plist --temp-dir-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/BroadcastExtension.build/ssu --bundle-id com.wangzhe.coach.BroadcastExtension --product-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/BroadcastExtension.appex --extracted-metadata-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/BroadcastExtension.appex/Metadata.appintents --archive-ssu-assets
-2026-10-15 09:39:34.669 appintentsnltrainingprocessor[2555:10278] Parsing options for appintentsnltrainingprocessor
-2026-10-15 09:39:34.681 appintentsnltrainingprocessor[2555:10278] No AppShortcuts found - Skipping.
+2026-10-15 09:48:28.673 appintentsnltrainingprocessor[3629:14563] Parsing options for appintentsnltrainingprocessor
+2026-10-15 09:48:28.678 appintentsnltrainingprocessor[3629:14563] No AppShortcuts found - Skipping.
 
 RegisterExecutionPolicyException /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/BroadcastExtension.appex (in target 'BroadcastExtension' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
@@ -242,10 +242,6 @@ SwiftDriver\ Compilation\ Requirements WangzheCoach normal arm64 com.apple.xcode
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     builtin-Swift-Compilation-Requirements -- /Applications/Xcode_15.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name WangzheCoach -O -whole-module-optimization -enforce-exclusivity\=checked @/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.SwiftFileList -sdk /Applications/Xcode_15.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk -target arm64-apple-ios15.0 -enable-bare-slash-regex -g -module-cache-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -swift-version 5 -I /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos -F /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos -c -num-threads 3 -Xcc -ivfsstatcache -Xcc /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/SDKStatCaches.noindex/iphoneos17.2-21C52-cf5483c6425ca36a8c12243236e2cd93.sdkstatcache -output-file-map /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach_const_extract_protocols.json -Xcc -iquote -Xcc /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/WangzheCoach-generated-files.hmap -Xcc -I/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/WangzheCoach-own-target-headers.hmap -Xcc -I/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/WangzheCoach-all-target-headers.hmap -Xcc -iquote -Xcc /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/WangzheCoach-project-headers.hmap -Xcc -I/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/include -Xcc -I/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/DerivedSources/arm64 -Xcc -I/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/DerivedSources -emit-objc-header -emit-objc-header-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach-Swift.h -working-directory /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach -no-emit-module-separately-wmo
 
-SwiftMergeGeneratedHeaders /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/DerivedSources/WangzheCoach-Swift.h /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach-Swift.h (in target 'WangzheCoach' from project 'WangzheCoach')
-    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
-    builtin-swiftHeaderTool -arch arm64 /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach-Swift.h -o /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/DerivedSources/WangzheCoach-Swift.h
-
 Copy /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.swiftmodule/arm64-apple-ios.swiftmodule /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.swiftmodule (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.swiftmodule /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.swiftmodule/arm64-apple-ios.swiftmodule
@@ -253,6 +249,10 @@ Copy /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/B
 Copy /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.swiftmodule/arm64-apple-ios.swiftdoc /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.swiftdoc (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.swiftdoc /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.swiftmodule/arm64-apple-ios.swiftdoc
+
+SwiftMergeGeneratedHeaders /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/DerivedSources/WangzheCoach-Swift.h /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach-Swift.h (in target 'WangzheCoach' from project 'WangzheCoach')
+    cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
+    builtin-swiftHeaderTool -arch arm64 /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach-Swift.h -o /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/DerivedSources/WangzheCoach-Swift.h
 
 Copy /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.swiftmodule/arm64-apple-ios.abi.json /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/Objects-normal/arm64/WangzheCoach.abi.json (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
@@ -295,8 +295,8 @@ GenerateDSYMFile /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheC
 AppIntentsSSUTraining (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
     /Applications/Xcode_15.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.app/Info.plist --temp-dir-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Intermediates.noindex/WangzheCoach.build/Release-iphoneos/WangzheCoach.build/ssu --bundle-id com.wangzhe.coach --product-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.app --extracted-metadata-path /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.app/Metadata.appintents --archive-ssu-assets
-2026-10-15 09:39:42.252 appintentsnltrainingprocessor[2772:10868] Parsing options for appintentsnltrainingprocessor
-2026-10-15 09:39:42.253 appintentsnltrainingprocessor[2772:10868] No AppShortcuts found - Skipping.
+2026-10-15 09:48:41.975 appintentsnltrainingprocessor[4279:16232] Parsing options for appintentsnltrainingprocessor
+2026-10-15 09:48:41.977 appintentsnltrainingprocessor[4279:16232] No AppShortcuts found - Skipping.
 
 RegisterExecutionPolicyException /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/build/Build/Products/Release-iphoneos/WangzheCoach.app (in target 'WangzheCoach' from project 'WangzheCoach')
     cd /Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach
