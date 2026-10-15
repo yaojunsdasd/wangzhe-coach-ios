@@ -65,7 +65,7 @@ final class ProbeViewController: UIViewController {
             威胁值：\(String(format: "%.3f", s.threat))
             标记串：\(s.markers.isEmpty ? "(空)" : s.markers)
 
-            通信路径：\(SharedStore.useSocket ? "localhost socket" : "App Group 文件")
+            通信路径：\(SharedStore.mode == .socket ? "localhost socket" : \(SharedStore.mode == .appGroup ? "App Group" : "不可用"))
             """
         }
     }
