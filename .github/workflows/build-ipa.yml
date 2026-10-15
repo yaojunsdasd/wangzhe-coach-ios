@@ -35,10 +35,9 @@ jobs:
         working-directory: ${{ steps.locate.outputs.dir }}
         run: xcodegen generate
 
-      # 关键：不签名构建 + 跳过嵌入了签名校验的 phase。
-      # 无法签名时 embed appex 会报 "Embedded binary's bundle identifier
-      # is not prefixed with..."，这里用 build-only 然后手动组装。
-      - name: 编译（不签名）
+      # 关键：只 build 到 install 阶段，不执行 Embed App Extensions 校验。
+      # -destination generic/platform=iOS 会跳过模拟器 destination 歧义。
+      - name: 编译（不签名，手动组装）
         id: build
         working-directory: ${{ steps.locate.outputs.dir }}
         run: |
@@ -48,6 +47,7 @@ jobs:
             -scheme WangzheCoach \
             -configuration Release \
             -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
@@ -85,32 +85,34 @@ jobs:
           name: build-log
           path: ${{ steps.locate.outputs.dir }}/build.log
 
-      # 手动组装 appex 到 .app 的 PlugIns —— 绕过校验
       - name: 组装 IPA
         working-directory: ${{ steps.locate.outputs.dir }}
         run: |
           P=build/Build/Products/Release-iphoneos
-          APP=$P/WangzheCoach.app
-          EXT=$P/BroadcastExtension.appex
+          APP="$P/WangzheCoach.app"
+          EXT="$P/BroadcastExtension.appex"
+          for f in "$APP" "$EXT"; do
+            if [ ! -d "$f" ]; then
+              echo "缺失: $f"
+              ls -la "$P" | head -30
+              exit 1
+            fi
+          done
 
-          echo "APP: $APP"
-          echo "EXT: $EXT"
-          ls -la "$P" || true
-          [ -d "$APP" ] || { echo "app 不存在"; exit 1; }
-          [ -d "$EXT" ] || { echo "appex 不存在"; exit 1; }
-
+          # 幂等：先清掉可能存在的 PlugIn 再覆盖
+          rm -rf "$APP/PlugIns"
           mkdir -p "$APP/PlugIns"
           cp -R "$EXT" "$APP/PlugIns/"
 
           mkdir -p Payload
           cp -R "$APP" Payload/
           zip -qr WangzheCoach-unsigned.ipa Payload
-          ls -lh WangzheCoach-unsigned.ipa
 
           echo "### IPA 内容" >> $GITHUB_STEP_SUMMARY
           echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
-          unzip -l WangzheCoach-unsigned.ipa >> $GITHUB_STEP_SUMMARY
+          unzip -l WangzheCoach-unsigned.ipa | head -30 >> $GITHUB_STEP_SUMMARY
           echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          ls -lh WangzheCoach-unsigned.ipa
 
       - uses: actions/upload-artifact@v4
         with:
