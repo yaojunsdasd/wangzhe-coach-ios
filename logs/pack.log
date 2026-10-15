@@ -1,0 +1,65 @@
+=========== 打包与验证 ===========
+APP=build/Build/Products/Release-iphoneos/WangzheCoach.app
+EXT=build/Build/Products/Release-iphoneos/BroadcastExtension.appex
+
+
+--- 二进制 ---
+主程序: 428656 bytes
+扩展:   348320 bytes
+Non-fat file: build/Build/Products/Release-iphoneos/WangzheCoach.app/WangzheCoach is architecture: arm64
+Non-fat file: build/Build/Products/Release-iphoneos/WangzheCoach.app/PlugIns/BroadcastExtension.appex/BroadcastExtension is architecture: arm64
+
+--- .app 全部文件 ---
+./Info.plist
+./PkgInfo
+./PlugIns/BroadcastExtension.appex/BroadcastExtension
+./PlugIns/BroadcastExtension.appex/Info.plist
+./WangzheCoach
+
+--- 扩展 Info.plist ---
+{
+  "BuildMachineOSBuild" => "23J631"
+  "CFBundleDisplayName" => "发育路助手"
+  "CFBundleExecutable" => "BroadcastExtension"
+  "CFBundleIdentifier" => "com.wangzhe.coach.BroadcastExtension"
+  "CFBundleInfoDictionaryVersion" => "6.0"
+  "CFBundleName" => "BroadcastExtension"
+  "CFBundlePackageType" => "XPC!"
+  "CFBundleShortVersionString" => "1.0"
+  "CFBundleSupportedPlatforms" => [
+    0 => "iPhoneOS"
+  ]
+  "CFBundleVersion" => "1"
+  "DTCompiler" => "com.apple.compilers.llvm.clang.1_0"
+  "DTPlatformBuild" => "21C52"
+  "DTPlatformName" => "iphoneos"
+  "DTPlatformVersion" => "17.2"
+  "DTSDKBuild" => "21C52"
+  "DTSDKName" => "iphoneos17.2"
+  "DTXcode" => "1520"
+  "DTXcodeBuild" => "15C500b"
+  "MinimumOSVersion" => "15.0"
+  "NSExtension" => {
+    "NSExtensionPointIdentifier" => "com.apple.broadcast-services-upload"
+    "NSExtensionPrincipalClass" => "BroadcastExtension.SampleHandler"
+    "RPBroadcastProcessMode" => "RPBroadcastProcessModeSampleBuffer"
+  }
+  "UIDeviceFamily" => [
+    0 => 1
+    1 => 2
+  ]
+  "UIRequiredDeviceCapabilities" => [
+    0 => "arm64"
+  ]
+}
+
+--- 扩展关键字段 ---
+CFBundlePackageType: XPC!
+CFBundleIdentifier:  com.wangzhe.coach.BroadcastExtension
+CFBundleExecutable:  BroadcastExtension
+NSExtPointId:        com.apple.broadcast-services-upload
+NSExtPrincipalClass: BroadcastExtension.SampleHandler
+RPBroadcastMode:     RPBroadcastProcessModeSampleBuffer
+
+--- IPA ---
+-rw-r--r--  1 runner  staff   226K Oct 15 10:03 WangzheCoach-unsigned.ipa
