@@ -99,7 +99,6 @@ jobs:
             fi
           done
 
-          # 幂等：先清掉可能存在的 PlugIn 再覆盖
           rm -rf "$APP/PlugIns"
           mkdir -p "$APP/PlugIns"
           cp -R "$EXT" "$APP/PlugIns/"
@@ -108,10 +107,34 @@ jobs:
           cp -R "$APP" Payload/
           zip -qr WangzheCoach-unsigned.ipa Payload
 
-          echo "### IPA 内容" >> $GITHUB_STEP_SUMMARY
+          # ---- 验证产物不是空壳 ----
+          echo "### 产物验证" >> $GITHUB_STEP_SUMMARY
           echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
-          unzip -l WangzheCoach-unsigned.ipa | head -30 >> $GITHUB_STEP_SUMMARY
+          APP_BIN="$APP/WangzheCoach"
+          EXT_BIN="$APP/PlugIns/BroadcastExtension.appex/BroadcastExtension"
+          echo "--- 二进制大小与架构 ---"
+          for b in "$APP_BIN" "$EXT_BIN"; do
+            if [ -f "$b" ]; then
+              echo "$(basename $b): $(stat -f%z "$b") bytes"
+              file "$b" | sed 's/^.*: //'
+              xcrun lipo -info "$b" || true
+              xcrun otool -l "$b" 2>/dev/null | grep -m1 uuid || true
+            else
+              echo "$(basename $b): 缺失！"
+            fi
+          done
+          echo ""
+          echo "--- .app 内容 ---"
+          find "$APP" -type f | head -20
+          echo ""
+          echo "--- IPA 总大小 ---"
+          ls -lh WangzheCoach-unsigned.ipa | awk '{print $5, $9}'
+          du -sh Payload
           echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+
+          # ---- 汇总也打到日志 ----
+          echo "APP_BIN size: $(stat -f%z "$APP_BIN" 2>/dev/null || echo missing)"
+          echo "EXT_BIN size: $(stat -f%z "$EXT_BIN" 2>/dev/null || echo missing)"
           ls -lh WangzheCoach-unsigned.ipa
 
       - uses: actions/upload-artifact@v4
