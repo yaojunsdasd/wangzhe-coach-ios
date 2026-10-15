@@ -135,6 +135,16 @@ jobs:
           # ---- 汇总也打到日志 ----
           echo "APP_BIN size: $(stat -f%z "$APP_BIN" 2>/dev/null || echo missing)"
           echo "EXT_BIN size: $(stat -f%z "$EXT_BIN" 2>/dev/null || echo missing)"
+
+          # ---- 把处理后的 Info.plist 打进日志（验证关键字段）----
+          echo "=== 主 App Info.plist ==="
+          plutil -p "$APP/Info.plist" || true
+          echo "=== 扩展 Info.plist ==="
+          plutil -p "$APP/PlugIns/BroadcastExtension.appex/Info.plist" || true
+          echo "=== 扩展包类型检查 ==="
+          plutil -extract CFBundlePackageType raw "$APP/PlugIns/BroadcastExtension.appex/Info.plist" 2>&1 || echo "读取失败"
+          plutil -extract NSExtension.NSExtensionPrincipalClass raw "$APP/PlugIns/BroadcastExtension.appex/Info.plist" 2>&1 || echo "读取失败"
+
           ls -lh WangzheCoach-unsigned.ipa
 
       - uses: actions/upload-artifact@v4

@@ -15,6 +15,7 @@ import Foundation
 import Darwin
 import os.log
 
+@objc(SampleHandler)
 final class SampleHandler: RPBroadcastSampleHandler {
 
     private let parser = MinimapParser()

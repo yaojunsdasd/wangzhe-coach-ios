@@ -29,6 +29,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 final class MainViewController: UIViewController {
 
+    /// 全局只初始化一次。viewDidLoad 可能被重复调用
+    /// （从 App 切换器返回等），重复 bind 端口会出问题。
+    private static var bootstrapped = false
+
     private let pip = PiPOverlay()
     private var statusLabel: UILabel!
     private var logView: UITextView!
@@ -45,8 +49,13 @@ final class MainViewController: UIViewController {
         // ---- 1. 后台保活（最先启动，它决定后面能不能用）----
         let kept = BackgroundKeeper.shared.start()
 
-        // ---- 2. socket 监听 ----
-        bootstrapMode = SharedStore.bootstrap()
+        // ---- 2. socket 监听（只做一次）----
+        if !MainViewController.bootstrapped {
+            MainViewController.bootstrapped = true
+            bootstrapMode = SharedStore.bootstrap()
+        } else {
+            bootstrapMode = SharedStore.mode
+        }
 
         buildUI(keepAliveOK: kept)
     }
