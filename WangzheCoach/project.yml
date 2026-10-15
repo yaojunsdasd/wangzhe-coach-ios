@@ -5,6 +5,7 @@ options:
     iOS: "15.0"
   createIntermediateGroups: true
   groupSortPosition: top
+  generateEmptyDirectories: false
 
 settings:
   base:
@@ -12,8 +13,12 @@ settings:
     IPHONEOS_DEPLOYMENT_TARGET: "15.0"
     ENABLE_BITCODE: NO
     ALWAYS_SEARCH_USER_PATHS: NO
-    CLANG_ENABLE_MODULES: YES
-    SWIFT_OPTIMIZATION_LEVEL: "-O"
+    # 关闭严格并发检查 —— Swift 6 模式下会把大量警告升级为错误
+    SWIFT_STRICT_CONCURRENCY: minimal
+    # 允许未使用的变量等，减少噪音
+    SWIFT_SUPPRESS_WARNINGS: NO
+    # 关键：不要生成默认的 Info.plist 条目，避免与手写的冲突
+    GENERATE_INFOPLIST_FILE: NO
 
 targets:
   # ============ 主 App ============
@@ -21,23 +26,27 @@ targets:
     type: application
     platform: iOS
     sources:
+      # 只加源码目录；Info.plist 通过 INFOPLIST_FILE 引用，不能再作为资源
       - path: App
+        excludes:
+          - "Info.plist"
       - path: Shared
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wangzhe.coach
-        PRODUCT_NAME: 发育路助手
+        # PRODUCT_NAME 用 ASCII，中文名走 CFBundleDisplayName
+        PRODUCT_NAME: WangzheCoach
         CODE_SIGN_ENTITLEMENTS: WangzheCoach.entitlements
         INFOPLIST_FILE: App/Info.plist
-        # 全能签会重签名，这里先留空
         CODE_SIGN_IDENTITY: ""
         CODE_SIGNING_REQUIRED: NO
         CODE_SIGNING_ALLOWED: NO
-        # 横屏全屏（游戏是横屏）
+        # 横屏全屏
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft"
         INFOPLIST_KEY_UIRequiresFullScreen: YES
-        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        # 支持直接运行（不经 Xcode 调试）
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks"
     dependencies:
       - target: BroadcastExtension
         embed: true
@@ -48,17 +57,18 @@ targets:
     platform: iOS
     sources:
       - path: BroadcastExtension
+        excludes:
+          - "Info.plist"
       - path: Shared
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wangzhe.coach.BroadcastExtension
         PRODUCT_NAME: BroadcastExtension
         CODE_SIGN_ENTITLEMENTS: BroadcastExtension.entitlements
+        INFOPLIST_FILE: BroadcastExtension/Info.plist
         CODE_SIGN_IDENTITY: ""
         CODE_SIGNING_REQUIRED: NO
         CODE_SIGNING_ALLOWED: NO
-        INFOPLIST_KEY_CFBundleDisplayName: "发育路助手"
-        INFOPLIST_KEY_NSExtension:
-          NSExtensionPointIdentifier: com.apple.broadcast-services-upload
-          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).SampleHandler
-          RPBroadcastProcessMode: RPBroadcastProcessModeSampleBuffer
+        # 扩展不能用 UIApplication，必须限制为 app-extension
+        APPLICATION_EXTENSION_API_ONLY: YES
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"

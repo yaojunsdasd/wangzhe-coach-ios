@@ -77,7 +77,8 @@ public enum SharedStore {
     // MARK: - socket 服务端
 
     @discardableResult
-    public static func startServer() -> Bool {
+    public static func startServer(port overridePort: UInt16? = nil) -> Bool {
+        if let p = overridePort { socketPort = p }
         if serverFD >= 0 { return true }
 
         let fd = Darwin.socket(AF_INET, SOCK_STREAM, 0)

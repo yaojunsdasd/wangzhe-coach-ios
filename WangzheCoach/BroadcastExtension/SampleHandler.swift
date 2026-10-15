@@ -12,6 +12,7 @@
 import ReplayKit
 import CoreVideo
 import Foundation
+import Darwin
 import os.log
 
 final class SampleHandler: RPBroadcastSampleHandler {
@@ -19,7 +20,9 @@ final class SampleHandler: RPBroadcastSampleHandler {
     private let parser = MinimapParser()
     private let graph = MapGraph(res: 96)
     private lazy var tracker = BeliefTracker(graph: graph)
-    private let renderer: GhostRenderer
+    // 必须是 lazy：在 init 里构造会读 self.graph，
+    // 而 Swift 禁止在 super.init() 之前访问 self 的属性。
+    private lazy var renderer = GhostRenderer(graph: graph)
 
     private var startTime: Date?
     private var frameCount = 0
@@ -28,11 +31,6 @@ final class SampleHandler: RPBroadcastSampleHandler {
     private let minInterval: TimeInterval = 0.1
     /// 小地图裁剪区域（归一化）—— 需按真实画面校准
     private var minimapCrop = CGRect(x: 0.0, y: 0.62, width: 0.24, height: 0.38)
-
-    override init() {
-        self.renderer = GhostRenderer(graph: graph)
-        super.init()
-    }
 
     override func broadcastStarted(withSetupInfo setupInfo: [String: NSObject]?) {
         startTime = Date()
