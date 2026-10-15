@@ -1,0 +1,1 @@
+/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/App/ProbeViewController.swift:68:42: error: type 'SharedStore' has no member 'useSocket'
