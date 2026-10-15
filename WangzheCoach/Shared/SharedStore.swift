@@ -31,8 +31,9 @@ import Darwin
 
 public enum SharedStore {
 
-    /// 通信端口。改这里要同步改扩展侧（同一常量）。
-    public static let port: UInt16 = 8765
+    /// 通信端口。主 App 与扩展必须一致。
+    /// 可变是为了支持端口冲突时切换（见 startServer(port:)）。
+    public static var port: UInt16 = 8765
 
     public enum Mode: String {
         case socket = "socket"          // 主路径
@@ -78,7 +79,7 @@ public enum SharedStore {
 
     @discardableResult
     public static func startServer(port overridePort: UInt16? = nil) -> Bool {
-        if let p = overridePort { socketPort = p }
+        if let p = overridePort { port = p }
         if serverFD >= 0 { return true }
 
         let fd = Darwin.socket(AF_INET, SOCK_STREAM, 0)
