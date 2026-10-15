@@ -15,11 +15,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 选择 Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.2.app || sudo xcode-select -s /Applications/Xcode.app
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app
 
       - name: 安装 XcodeGen
         run: brew install xcodegen || brew upgrade xcodegen
@@ -31,15 +29,16 @@ jobs:
             echo "dir=WangzheCoach" >> $GITHUB_OUTPUT
           elif [ -f "ios/WangzheCoach/project.yml" ]; then
             echo "dir=ios/WangzheCoach" >> $GITHUB_OUTPUT
-          else
-            find . -name project.yml; exit 1
-          fi
+          else find . -name project.yml; exit 1; fi
 
-      - name: 生成 Xcode 工程
+      - name: 生成工程
         working-directory: ${{ steps.locate.outputs.dir }}
         run: xcodegen generate
 
-      - name: 编译
+      # 关键：不签名构建 + 跳过嵌入了签名校验的 phase。
+      # 无法签名时 embed appex 会报 "Embedded binary's bundle identifier
+      # is not prefixed with..."，这里用 build-only 然后手动组装。
+      - name: 编译（不签名）
         id: build
         working-directory: ${{ steps.locate.outputs.dir }}
         run: |
@@ -53,6 +52,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
+            ONLY_ACTIVE_ARCH=NO \
             build > build.log 2>&1
           CODE=$?
           set -e
@@ -60,24 +60,22 @@ jobs:
           {
             echo "## 编译结果: exit=$CODE"
             echo ""
-            echo "### error 行"
             echo '\`\`\`'
-            grep -E "error:" build.log | head -100 || echo "(none)"
+            grep -E "error:" build.log | head -60 || echo "(no error)"
             echo '\`\`\`'
           } >> $GITHUB_STEP_SUMMARY
           exit $CODE
 
-      # 关键：把日志提交回仓库，方便外部读取
-      - name: 提交日志到仓库
+      - name: 提交日志
         if: always()
         run: |
           mkdir -p logs
           cp ${{ steps.locate.outputs.dir }}/build.log logs/build.log || true
-          grep -E "error:" logs/build.log | head -100 > logs/errors.txt || echo "(none)" > logs/errors.txt
-          git config user.name "ci-bot"
-          git config user.email "ci@local"
-          git add logs/ || true
-          git commit -m "ci: build log $(date +%s)" || true
+          grep -E "error:" logs/build.log | head -60 > logs/errors.txt || echo "(none)" > logs/errors.txt
+          git config user.name ci-bot
+          git config user.email ci@local
+          git add logs/
+          git commit -m "ci: build log" || true
           git push || true
 
       - name: 上传完整日志
@@ -87,18 +85,34 @@ jobs:
           name: build-log
           path: ${{ steps.locate.outputs.dir }}/build.log
 
-      - name: 打包 IPA
+      # 手动组装 appex 到 .app 的 PlugIns —— 绕过校验
+      - name: 组装 IPA
         working-directory: ${{ steps.locate.outputs.dir }}
         run: |
-          APP=$(find build/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" | head -1)
-          echo "app: $APP"
+          P=build/Build/Products/Release-iphoneos
+          APP=$P/WangzheCoach.app
+          EXT=$P/BroadcastExtension.appex
+
+          echo "APP: $APP"
+          echo "EXT: $EXT"
+          ls -la "$P" || true
+          [ -d "$APP" ] || { echo "app 不存在"; exit 1; }
+          [ -d "$EXT" ] || { echo "appex 不存在"; exit 1; }
+
+          mkdir -p "$APP/PlugIns"
+          cp -R "$EXT" "$APP/PlugIns/"
+
           mkdir -p Payload
           cp -R "$APP" Payload/
-          zip -r WangzheCoach-unsigned.ipa Payload
+          zip -qr WangzheCoach-unsigned.ipa Payload
           ls -lh WangzheCoach-unsigned.ipa
 
-      - name: 上传 IPA
-        uses: actions/upload-artifact@v4
+          echo "### IPA 内容" >> $GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          unzip -l WangzheCoach-unsigned.ipa >> $GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+
+      - uses: actions/upload-artifact@v4
         with:
           name: WangzheCoach-ipa
           path: ${{ steps.locate.outputs.dir }}/WangzheCoach-unsigned.ipa

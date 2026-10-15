@@ -1,6 +1,8 @@
 name: WangzheCoach
 options:
-  bundleIdPrefix: com.wangzhe
+  # 不用 bundleIdPrefix —— 避免 XcodeGen 自动拼前缀导致 bundle id 与
+  # 扩展的前缀关系不匹配。所有 id 显式写全。
+  bundleIdPrefix: ""
   deploymentTarget:
     iOS: "15.0"
   createIntermediateGroups: true
