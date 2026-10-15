@@ -44,6 +44,7 @@ final class PiPOverlay: NSObject {
         renderTimer?.invalidate(); renderTimer = nil
         pipController?.stopPictureInPicture()
         audioPlayer?.stop()
+        displayLayer.flushAndRemoveImage()
     }
 
     /// 配置音频会话 —— PiP 的前提条件。
@@ -99,8 +100,9 @@ final class PiPOverlay: NSObject {
             playbackDelegate: self)
         pipController = AVPictureInPictureController(contentSource: source)
         pipController?.delegate = self
-        // 允许从 inline 自动启动（有些场景必需）
-        pipController?.canStartPictureInPictureAutomaticallyFromInline = true
+        // 注意：canStartPictureInPictureAutomaticallyFromInline 是**只读**属性，
+        // 赋值会编译失败。它只对 AVPlayerLayer 场景有效，且由系统根据
+        // 内容类型自动决定。sampleBufferDisplayLayer 场景必须显式调用 start。
         pipController?.startPictureInPicture()
     }
 
@@ -119,6 +121,8 @@ final class PiPOverlay: NSObject {
             latestMarkers = s.markers
         }
         guard let buffer = renderFrame() else { return }
+        // enqueue 前必须检查就绪状态，否则会丢帧并打印错误
+        guard displayLayer.isReadyForMoreMediaData else { return }
         displayLayer.enqueue(buffer)
     }
 

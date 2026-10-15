@@ -1,10 +1,5 @@
 name: Build iOS IPA
 
-# 在 GitHub Actions 的 macOS runner 上编译，产出未签名 IPA。
-# 拿到后用自己的证书（全能签）重签名安装。
-#
-# 为什么必须 macOS：iOS 编译需要 Xcode 与 iOS SDK，Windows/Linux 上没有替代。
-
 on:
   push:
     branches: [main]
@@ -16,22 +11,13 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - name: 检出代码
-        uses: actions/checkout@v4
-
-      - name: 显示环境
-        run: |
-          xcodebuild -version
-          swift --version
-          ls -la
+      - uses: actions/checkout@v4
 
       - name: 选择 Xcode
         run: sudo xcode-select -s /Applications/Xcode_15.2.app || sudo xcode-select -s /Applications/Xcode.app
 
       - name: 安装 XcodeGen
-        run: |
-          brew install xcodegen || brew upgrade xcodegen
-          xcodegen --version
+        run: brew install xcodegen || brew upgrade xcodegen
 
       - name: 定位工程目录
         id: locate
@@ -41,9 +27,7 @@ jobs:
           elif [ -f "ios/WangzheCoach/project.yml" ]; then
             echo "dir=ios/WangzheCoach" >> $GITHUB_OUTPUT
           else
-            echo "找不到 project.yml"
-            find . -name project.yml
-            exit 1
+            find . -name project.yml; exit 1
           fi
 
       - name: 生成 Xcode 工程
@@ -51,9 +35,10 @@ jobs:
         run: xcodegen generate
 
       - name: 编译
+        id: build
         working-directory: ${{ steps.locate.outputs.dir }}
+        continue-on-error: true
         run: |
-          set -o pipefail
           xcodebuild \
             -project WangzheCoach.xcodeproj \
             -scheme WangzheCoach \
@@ -63,32 +48,55 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            CODE_SIGN_ENTITLEMENTS="" \
-            build 2>&1 | tee build.log
+            build > build.log 2>&1
+          echo "exit=$?" >> $GITHUB_OUTPUT
 
-      - name: 上传编译日志（失败时排查用）
+      # 关键：把错误行直接写进 Job Summary，不用下载 artifact
+      - name: 提取错误到 Summary
+        if: always()
+        working-directory: ${{ steps.locate.outputs.dir }}
+        run: |
+          echo "## 编译错误" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### error: 行" >> $GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          grep -E "error:" build.log | head -60 >> $GITHUB_STEP_SUMMARY || echo "(无 error 行)" >> $GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### warning: 行（前 20）" >> $GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          grep -E "warning:" build.log | head -20 >> $GITHUB_STEP_SUMMARY || echo "(无)" >> $GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 日志尾部 80 行" >> $GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+          tail -80 build.log >> $GITHUB_STEP_SUMMARY
+          echo '\`\`\`' >> $GITHUB_STEP_SUMMARY
+
+      - name: 上传完整日志
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build-log
           path: ${{ steps.locate.outputs.dir }}/build.log
 
+      - name: 检查编译结果
+        if: steps.build.outputs.exit != '0'
+        run: |
+          echo "编译失败，退出码 ${{ steps.build.outputs.exit }}"
+          exit 1
+
       - name: 打包 IPA
-        if: success()
         working-directory: ${{ steps.locate.outputs.dir }}
         run: |
           APP=$(find build/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" | head -1)
-          echo "找到 app: $APP"
           mkdir -p Payload
           cp -R "$APP" Payload/
           zip -r WangzheCoach-unsigned.ipa Payload
           ls -lh WangzheCoach-unsigned.ipa
-          unzip -l WangzheCoach-unsigned.ipa | head -20
 
       - name: 上传 IPA
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: WangzheCoach-ipa
           path: ${{ steps.locate.outputs.dir }}/WangzheCoach-unsigned.ipa
-          retention-days: 30
