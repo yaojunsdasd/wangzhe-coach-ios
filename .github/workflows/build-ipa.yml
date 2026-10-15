@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-14
@@ -12,6 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 选择 Xcode
         run: sudo xcode-select -s /Applications/Xcode_15.2.app || sudo xcode-select -s /Applications/Xcode.app
@@ -52,25 +57,28 @@ jobs:
           CODE=$?
           set -e
           echo "exit=$CODE" >> $GITHUB_OUTPUT
-
-          # 把错误写进 Summary（无论成败）
           {
-            echo "## 编译结果"
+            echo "## 编译结果: exit=$CODE"
             echo ""
-            echo "退出码: \`$CODE\`"
-            echo ""
-            echo "### error: 行"
+            echo "### error 行"
             echo '\`\`\`'
-            grep -E "error:" build.log | head -80 || echo "(无 error 行)"
-            echo '\`\`\`'
-            echo ""
-            echo "### 日志尾部 60 行"
-            echo '\`\`\`'
-            tail -60 build.log
+            grep -E "error:" build.log | head -100 || echo "(none)"
             echo '\`\`\`'
           } >> $GITHUB_STEP_SUMMARY
-
           exit $CODE
+
+      # 关键：把日志提交回仓库，方便外部读取
+      - name: 提交日志到仓库
+        if: always()
+        run: |
+          mkdir -p logs
+          cp ${{ steps.locate.outputs.dir }}/build.log logs/build.log || true
+          grep -E "error:" logs/build.log | head -100 > logs/errors.txt || echo "(none)" > logs/errors.txt
+          git config user.name "ci-bot"
+          git config user.email "ci@local"
+          git add logs/ || true
+          git commit -m "ci: build log $(date +%s)" || true
+          git push || true
 
       - name: 上传完整日志
         if: always()
