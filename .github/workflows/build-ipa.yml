@@ -136,16 +136,49 @@ jobs:
           echo "APP_BIN size: $(stat -f%z "$APP_BIN" 2>/dev/null || echo missing)"
           echo "EXT_BIN size: $(stat -f%z "$EXT_BIN" 2>/dev/null || echo missing)"
 
-          # ---- 把处理后的 Info.plist 打进日志（验证关键字段）----
-          echo "=== 主 App Info.plist ==="
-          plutil -p "$APP/Info.plist" || true
-          echo "=== 扩展 Info.plist ==="
-          plutil -p "$APP/PlugIns/BroadcastExtension.appex/Info.plist" || true
-          echo "=== 扩展包类型检查 ==="
-          plutil -extract CFBundlePackageType raw "$APP/PlugIns/BroadcastExtension.appex/Info.plist" 2>&1 || echo "读取失败"
-          plutil -extract NSExtension.NSExtensionPrincipalClass raw "$APP/PlugIns/BroadcastExtension.appex/Info.plist" 2>&1 || echo "读取失败"
+          # ---- 验证输出写入可提交的文件 ----
+          APX="$APP/PlugIns/BroadcastExtension.appex"
+          {
+            echo "=========== 产物验证 ==========="
+            echo "IPA: $(ls -lh WangzheCoach-unsigned.ipa | awk '{print $5}')"
+            echo "Payload: $(du -sh Payload | awk '{print $1}')"
+            echo ""
+            echo "--- 二进制 ---"
+            echo "主程序: $(stat -f%z "$APP/WangzheCoach" 2>/dev/null || echo missing) bytes"
+            echo "扩展:   $(stat -f%z "$APX/BroadcastExtension" 2>/dev/null || echo missing) bytes"
+            lipo -info "$APP/WangzheCoach" 2>&1 || true
+            lipo -info "$APX/BroadcastExtension" 2>&1 || true
+            echo ""
+            echo "--- .app 全部文件 ---"
+            find "$APP" -type f | sed "s|$APP|<APP>|" | sort
+            echo ""
+            echo "--- 扩展 Info.plist 关键字段 ---"
+            echo "CFBundlePackageType = $(plutil -extract CFBundlePackageType raw "$APX/Info.plist" 2>&1)"
+            echo "CFBundleIdentifier  = $(plutil -extract CFBundleIdentifier raw "$APX/Info.plist" 2>&1)"
+            echo "CFBundleExecutable  = $(plutil -extract CFBundleExecutable raw "$APX/Info.plist" 2>&1)"
+            echo "NSExtensionPointIdentifier = $(plutil -extract NSExtension.NSExtensionPointIdentifier raw "$APX/Info.plist" 2>&1)"
+            echo "NSExtensionPrincipalClass  = $(plutil -extract NSExtension.NSExtensionPrincipalClass raw "$APX/Info.plist" 2>&1)"
+            echo "RPBroadcastProcessMode     = $(plutil -extract NSExtension.RPBroadcastProcessMode raw "$APX/Info.plist" 2>&1)"
+            echo ""
+            echo "--- 扩展完整 Info.plist ---"
+            plutil -p "$APX/Info.plist" 2>&1 || true
+            echo ""
+            echo "--- 主程序 Info.plist 关键字段 ---"
+            for k in CFBundlePackageType CFBundleIdentifier CFBundleExecutable UIBackgroundModes; do
+              echo "$k = $(plutil -extract $k raw "$APP/Info.plist" 2>&1)"
+            done
+          } | tee logs/verify.txt
 
           ls -lh WangzheCoach-unsigned.ipa
+
+      - name: 回传验证结果
+        if: always()
+        run: |
+          git config user.name ci-bot
+          git config user.email ci@local
+          git add logs/ 2>/dev/null || true
+          git commit -m "ci: verify result" 2>/dev/null || true
+          git push 2>/dev/null || true
 
       - uses: actions/upload-artifact@v4
         with:
