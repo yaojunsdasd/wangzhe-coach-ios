@@ -65,8 +65,21 @@ final class ProbeViewController: UIViewController {
             威胁值：\(String(format: "%.3f", s.threat))
             标记串：\(s.markers.isEmpty ? "(空)" : s.markers)
 
-            通信路径：\(SharedStore.mode == .socket ? "localhost socket" : \(SharedStore.mode == .appGroup ? "App Group" : "不可用"))
+            通信路径：\(modeText())
             """
+
+        }
+    }
+
+    /// 通信路径文字（三元不能嵌套在插值里，拆出来）
+    private func modeText() -> String {
+        switch SharedStore.mode {
+        case .socket:
+            return "localhost socket"
+        case .appGroup:
+            return "App Group"
+        case .none:
+            return "不可用"
         }
     }
 }

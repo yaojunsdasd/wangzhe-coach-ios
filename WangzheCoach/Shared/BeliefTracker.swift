@@ -202,7 +202,6 @@ public final class BeliefTracker {
             for i in 0..<(r * r) { prior[i] = 1 }
         } else {
             let sigmaRing = max(0.06, ringSigmaRatio * r0)
-            let denom = sigmaRing * sigmaRing
             for i in 0..<(r * r) {
                 let d = D[i]
                 if !d.isFinite || d > radiusCells { continue }
