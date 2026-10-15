@@ -36,10 +36,8 @@ jobs:
         run: xcodegen generate
 
       - name: 编译
-        id: build
         working-directory: ${{ steps.locate.outputs.dir }}
         run: |
-          set +e
           xcodebuild \
             -project WangzheCoach.xcodeproj \
             -scheme WangzheCoach \
@@ -52,46 +50,13 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             ONLY_ACTIVE_ARCH=NO \
             build > build.log 2>&1
-          CODE=$?
-          set -e
-          echo "exit=$CODE" >> $GITHUB_OUTPUT
-          {
-            echo "## 编译结果 exit=$CODE"
-            echo '\`\`\`'
-            grep -E "error:" build.log | head -60 || echo "(no error)"
-            echo '\`\`\`'
-          } >> $GITHUB_STEP_SUMMARY
-          exit $CODE
 
-      - name: 打包并验证
-        id: pack
+      - name: 打包 IPA
         working-directory: ${{ steps.locate.outputs.dir }}
         run: |
-          set +e
-          exec > >(tee pack.log) 2>&1
-
           P=build/Build/Products/Release-iphoneos
           APP="$P/WangzheCoach.app"
-          APX="$APP/PlugIns/BroadcastExtension.appex"
           EXT="$P/BroadcastExtension.appex"
-
-          echo "=========== 打包与验证 ==========="
-          echo "APP=$APP"
-          echo "EXT=$EXT"
-          echo ""
-
-          if [ ! -d "$APP" ]; then
-            echo "错误: 主 App 不存在"
-            ls -la "$P" 2>&1 | head -30
-            echo "PACK_FAILED" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          if [ ! -d "$EXT" ]; then
-            echo "错误: 扩展 appex 不存在"
-            ls -la "$P" 2>&1 | head -30
-            echo "PACK_FAILED" >> $GITHUB_OUTPUT
-            exit 0
-          fi
 
           rm -rf "$APP/PlugIns"
           mkdir -p "$APP/PlugIns"
@@ -103,62 +68,62 @@ jobs:
           rm -f WangzheCoach-unsigned.ipa
           zip -qr WangzheCoach-unsigned.ipa Payload
 
-          echo ""
-          echo "--- 二进制 ---"
-          echo "主程序: $(stat -f%z "$APP/WangzheCoach" 2>/dev/null) bytes"
-          echo "扩展:   $(stat -f%z "$APX/BroadcastExtension" 2>/dev/null) bytes"
-          lipo -info "$APP/WangzheCoach" 2>&1
-          lipo -info "$APX/BroadcastExtension" 2>&1
-
-          echo ""
-          echo "--- .app 全部文件 ---"
-          (cd "$APP" && find . -type f | sort)
-
-          echo ""
-          echo "--- 扩展 Info.plist ---"
-          plutil -p "$APX/Info.plist" 2>&1
-
-          echo ""
-          echo "--- 扩展关键字段 ---"
-          echo "CFBundlePackageType: $(plutil -extract CFBundlePackageType raw "$APX/Info.plist" 2>&1)"
-          echo "CFBundleIdentifier:  $(plutil -extract CFBundleIdentifier raw "$APX/Info.plist" 2>&1)"
-          echo "CFBundleExecutable:  $(plutil -extract CFBundleExecutable raw "$APX/Info.plist" 2>&1)"
-          echo "NSExtPointId:        $(plutil -extract NSExtension.NSExtensionPointIdentifier raw "$APX/Info.plist" 2>&1)"
-          echo "NSExtPrincipalClass: $(plutil -extract NSExtension.NSExtensionPrincipalClass raw "$APX/Info.plist" 2>&1)"
-          echo "RPBroadcastMode:     $(plutil -extract NSExtension.RPBroadcastProcessMode raw "$APX/Info.plist" 2>&1)"
-
-          echo ""
-          echo "--- IPA ---"
           ls -lh WangzheCoach-unsigned.ipa
 
-          # 把验证内容存到仓库根的 logs/（绝对路径，避免工作目录问题）
-          ROOT=$(git rev-parse --show-toplevel)
-          mkdir -p "$ROOT/logs"
-          cp pack.log "$ROOT/logs/pack.log" 2>/dev/null
-          echo "PACK_OK" >> $GITHUB_OUTPUT
-          exit 0
-
-      - name: 上传日志与验证
+      - name: 产物验证
         if: always()
+        working-directory: ${{ steps.locate.outputs.dir }}
         run: |
           ROOT=$(git rev-parse --show-toplevel)
           mkdir -p "$ROOT/logs"
-          cp ${{ steps.locate.outputs.dir }}/build.log "$ROOT/logs/build.log" 2>/dev/null || true
-          cp ${{ steps.locate.outputs.dir }}/pack.log "$ROOT/logs/pack.log" 2>/dev/null || true
-          grep -E "error:" "$ROOT/logs/build.log" 2>/dev/null | head -60 > "$ROOT/logs/errors.txt" || echo "(none)" > "$ROOT/logs/errors.txt"
+
+          P=build/Build/Products/Release-iphoneos
+          APP="$P/WangzheCoach.app"
+          APX="$APP/PlugIns/BroadcastExtension.appex"
+
+          {
+            echo "########## BUILD ##########"
+            if [ -f build.log ]; then
+              grep -E "error:" build.log | head -40 || true
+              tail -3 build.log
+            fi
+            echo ""
+            echo "########## PACK ##########"
+            echo "-- 二进制 --"
+            echo "主程序: $(stat -f%z "$APP/WangzheCoach" 2>/dev/null || echo missing) bytes"
+            echo "扩展:   $(stat -f%z "$APX/BroadcastExtension" 2>/dev/null || echo missing) bytes"
+            lipo -info "$APP/WangzheCoach" 2>&1 || true
+            lipo -info "$APX/BroadcastExtension" 2>&1 || true
+            echo ""
+            echo "-- .app 全部文件 --"
+            (cd "$APP" && find . -type f 2>/dev/null | sort)
+            echo ""
+            echo "-- 扩展 plist 关键字段 --"
+            for k in CFBundlePackageType CFBundleIdentifier CFBundleExecutable; do
+              printf '%s = %s\n' "$k" "$(plutil -extract $k raw "$APX/Info.plist" 2>&1)"
+            done
+            printf 'NSExtPointId = %s\n' "$(plutil -extract NSExtension.NSExtensionPointIdentifier raw "$APX/Info.plist" 2>&1)"
+            printf 'NSExtPrincipalClass = %s\n' "$(plutil -extract NSExtension.NSExtensionPrincipalClass raw "$APX/Info.plist" 2>&1)"
+            printf 'RPBroadcastMode = %s\n' "$(plutil -extract NSExtension.RPBroadcastProcessMode raw "$APX/Info.plist" 2>&1)"
+            echo ""
+            echo "-- IPA --"
+            ls -lh WangzheCoach-unsigned.ipa 2>&1 || echo "IPA 不存在"
+          } > "$ROOT/logs/verify.txt" 2>&1
+
+          cat "$ROOT/logs/verify.txt"
+
+          cp build.log "$ROOT/logs/build.log" 2>/dev/null || true
+          grep -E "error:" "$ROOT/logs/build.log" 2>/dev/null | head -40 > "$ROOT/logs/errors.txt" || echo "(none)" > "$ROOT/logs/errors.txt"
+
           git config user.name ci-bot
           git config user.email ci@local
           git add logs/ 2>/dev/null || true
           git commit -m "ci: logs" 2>/dev/null || true
           git push 2>/dev/null || true
 
-          if [ "${{ steps.pack.outputs.PACK_FAILED }}" = "PACK_FAILED" ]; then
-            echo "打包失败"
-            exit 1
-          fi
-
       - uses: actions/upload-artifact@v4
-        if: steps.pack.outputs.PACK_OK == 'PACK_OK'
+        if: always()
         with:
           name: WangzheCoach-ipa
           path: ${{ steps.locate.outputs.dir }}/WangzheCoach-unsigned.ipa
+          if-no-files-found: warn
