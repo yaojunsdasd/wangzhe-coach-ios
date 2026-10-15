@@ -1,0 +1,94 @@
+name: Build iOS IPA
+
+# 在 GitHub Actions 的 macOS runner 上编译，产出未签名 IPA。
+# 拿到后用自己的证书（全能签）重签名安装。
+#
+# 为什么必须 macOS：iOS 编译需要 Xcode 与 iOS SDK，Windows/Linux 上没有替代。
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 显示环境
+        run: |
+          xcodebuild -version
+          swift --version
+          ls -la
+
+      - name: 选择 Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app || sudo xcode-select -s /Applications/Xcode.app
+
+      - name: 安装 XcodeGen
+        run: |
+          brew install xcodegen || brew upgrade xcodegen
+          xcodegen --version
+
+      - name: 定位工程目录
+        id: locate
+        run: |
+          if [ -f "WangzheCoach/project.yml" ]; then
+            echo "dir=WangzheCoach" >> $GITHUB_OUTPUT
+          elif [ -f "ios/WangzheCoach/project.yml" ]; then
+            echo "dir=ios/WangzheCoach" >> $GITHUB_OUTPUT
+          else
+            echo "找不到 project.yml"
+            find . -name project.yml
+            exit 1
+          fi
+
+      - name: 生成 Xcode 工程
+        working-directory: ${{ steps.locate.outputs.dir }}
+        run: xcodegen generate
+
+      - name: 编译
+        working-directory: ${{ steps.locate.outputs.dir }}
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project WangzheCoach.xcodeproj \
+            -scheme WangzheCoach \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            build 2>&1 | tee build.log
+
+      - name: 上传编译日志（失败时排查用）
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: ${{ steps.locate.outputs.dir }}/build.log
+
+      - name: 打包 IPA
+        if: success()
+        working-directory: ${{ steps.locate.outputs.dir }}
+        run: |
+          APP=$(find build/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" | head -1)
+          echo "找到 app: $APP"
+          mkdir -p Payload
+          cp -R "$APP" Payload/
+          zip -r WangzheCoach-unsigned.ipa Payload
+          ls -lh WangzheCoach-unsigned.ipa
+          unzip -l WangzheCoach-unsigned.ipa | head -20
+
+      - name: 上传 IPA
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: WangzheCoach-ipa
+          path: ${{ steps.locate.outputs.dir }}/WangzheCoach-unsigned.ipa
+          retention-days: 30

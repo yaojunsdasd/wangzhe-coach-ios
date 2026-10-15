@@ -1,0 +1,64 @@
+name: WangzheCoach
+options:
+  bundleIdPrefix: com.wangzhe
+  deploymentTarget:
+    iOS: "15.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+    ENABLE_BITCODE: NO
+    ALWAYS_SEARCH_USER_PATHS: NO
+    CLANG_ENABLE_MODULES: YES
+    SWIFT_OPTIMIZATION_LEVEL: "-O"
+
+targets:
+  # ============ 主 App ============
+  WangzheCoach:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wangzhe.coach
+        PRODUCT_NAME: 发育路助手
+        CODE_SIGN_ENTITLEMENTS: WangzheCoach.entitlements
+        INFOPLIST_FILE: App/Info.plist
+        # 全能签会重签名，这里先留空
+        CODE_SIGN_IDENTITY: ""
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGNING_ALLOWED: NO
+        # 横屏全屏（游戏是横屏）
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft"
+        INFOPLIST_KEY_UIRequiresFullScreen: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+    dependencies:
+      - target: BroadcastExtension
+        embed: true
+
+  # ============ 广播扩展 ============
+  BroadcastExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: BroadcastExtension
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wangzhe.coach.BroadcastExtension
+        PRODUCT_NAME: BroadcastExtension
+        CODE_SIGN_ENTITLEMENTS: BroadcastExtension.entitlements
+        CODE_SIGN_IDENTITY: ""
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGNING_ALLOWED: NO
+        INFOPLIST_KEY_CFBundleDisplayName: "发育路助手"
+        INFOPLIST_KEY_NSExtension:
+          NSExtensionPointIdentifier: com.apple.broadcast-services-upload
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).SampleHandler
+          RPBroadcastProcessMode: RPBroadcastProcessModeSampleBuffer

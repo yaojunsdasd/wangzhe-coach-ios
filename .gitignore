@@ -1,0 +1,23 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# 生成的工程（由 xcodegen 从 project.yml 生成）
+WangzheCoach.xcodeproj/
+
+# 构建产物
+*.ipa
+*.app
+*.dSYM
+Payload/
+
+# macOS
+.DS_Store
+
+# 临时
+*.swp
+*~
