@@ -1,1 +1,2 @@
-/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/App/ProbeViewController.swift:68:42: error: type 'SharedStore' has no member 'useSocket'
+/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/App/ProbeViewController.swift:68:113: error: string interpolation can only appear inside a string literal
+/Users/runner/work/wangzhe-coach-ios/wangzhe-coach-ios/WangzheCoach/App/ProbeViewController.swift:68:60: error: result values in '? :' expression have mismatching types 'String' and 'WritableKeyPath<_, _>'
